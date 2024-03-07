@@ -63,9 +63,13 @@ const allChunks = [chunk1, chunk2, chunk3];
     }
 
     &__column {
-      display: grid;
-      grid-template-columns: 100%;
+      display: flex;
+      flex-flow: column;
       gap: 0.5rem;
+
+      > * {
+        flex: 1;
+      }
 
       @media (width < 500px) {
         display: contents;
