@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const getImages = import.meta.glob("@/images/*", { eager: true });
 const images = Object.values(getImages as {[key: string]: {default: any}}).map((image) => image.default);
+const minGridRowPart = 25;
 ---
 
 <BaseLayout title="Masonry">
@@ -10,8 +11,7 @@ const images = Object.values(getImages as {[key: string]: {default: any}}).map((
     <section class="masonry">
       {
         images.map((image) => {
-          let getRows = Math.round(image.height / 50);
-          let rows = Math.max(getRows, 10);
+          let rows = Math.round(image.height / minGridRowPart);
 
           return (
             <div
