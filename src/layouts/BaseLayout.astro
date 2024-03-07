@@ -1,0 +1,37 @@
+---
+import "@/styles/index.scss";
+
+import FavIcon from "@/components/app/FavIcon.astro";
+import AppHeader from "@/components/app/AppHeader.astro";
+import AppFooter from "@/components/app/AppFooter.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title = "Masonry",
+  description = "Masonry images template",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <FavIcon />
+  </head>
+  <body class="app">
+    <AppHeader />
+
+    <main>
+      <slot />
+    </main>
+
+    <AppFooter />
+  </body>
+</html>
