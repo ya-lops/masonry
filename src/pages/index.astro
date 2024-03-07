@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
 
 const getImages = import.meta.glob("@/images/*", { eager: true });
 const images = Object.values(
@@ -18,17 +19,27 @@ const allChunks = [chunk1, chunk2, chunk3];
   <div class="container">
     <section class="masonry">
       {
-        allChunks.map(chunk => (
+        allChunks.map((chunk) => (
           <div class="masonry__column">
-            {
-              chunk.map((image, index) => {
-                return (
-                  <div class:list={['masonry__item', image.width/image.height < .75 ? 'is-portrait' : '' ]} style={`--index: ${index}`}>
-                    <img src={image.src}  />
-                  </div>
-                );
-              })
-            }
+            {chunk.map((image, index) => {
+              return (
+                <div
+                  class:list={[
+                    "masonry__item",
+                    image.width / image.height < 0.75 ? "is-portrait" : "",
+                  ]}
+                  style={`--index: ${index}`}
+                >
+                  <Image
+                    src={image}
+                    alt={`Image ${index + 1}`}
+                    {...(index === 0
+                      ? { loading: "eager", decoding: "auto" }
+                      : {})}
+                  />
+                </div>
+              );
+            })}
           </div>
         ))
       }
@@ -66,7 +77,7 @@ const allChunks = [chunk1, chunk2, chunk3];
         max-height: 400px;
         order: var(--index);
         grid-row: span 2;
-        
+
         &.is-portrait {
           grid-row: span 3;
         }
