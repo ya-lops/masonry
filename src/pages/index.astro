@@ -2,9 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const getImages = import.meta.glob("@/images/*", { eager: true });
-const images = Object.values(getImages).map((image) => image.default);
-
-console.log(images);
+const images = Object.values(getImages as {[key: string]: {default: any}}).map((image) => image.default);
 ---
 
 <BaseLayout title="Masonry">
@@ -12,12 +10,14 @@ console.log(images);
     <section class="masonry">
       {
         images.map((image) => {
-          let rows = Math.round(image.height / 50);
+          let getRows = Math.round(image.height / 50);
+          let rows = Math.max(getRows, 10);
+
           return (
             <div
               class:list={[
                 "masonry__item",
-                { "is-Portrait": image.width / image.height < 0.5 },
+                { "is-Portrait": (image.width / image.height) < 9/16 },
               ]}
               style={{ gridRowEnd: `span ${rows}` }}
             >
