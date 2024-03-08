@@ -55,7 +55,7 @@
             height={image.height}
             src={image.src}
             alt={`Image ${index + 1}`}
-            {...index <= 2 ? { loading: "eager" } : { loading: "lazy" }}
+            {...index <= 4 ? { loading: "eager" } : { loading: "lazy" }}
           />
         </div>
       {/each}
