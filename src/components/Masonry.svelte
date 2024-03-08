@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from "svelte";
 
   const getImages = import.meta.glob("@/images/*", { eager: true });
-  
+
   let images = [];
   let imageColumns = [];
   let windowWidth;
@@ -24,7 +24,6 @@
     window.addEventListener("resize", updateColumns);
     updateColumns();
 
-    
     images = Object.values(getImages).map((image) => image.default);
 
     imageColumns = chunkArray(images, columns);
@@ -55,7 +54,9 @@
             height={image.height}
             src={image.src}
             alt={`Image ${index + 1}`}
-            {...index === 0 ? { loading: "eager", decoding: "auto" } : {}}
+            {...index === 0
+              ? { loading: "eager", decoding: "auto" }
+              : { loading: "lazy", decoding: "async" }}
           />
         </div>
       {/each}
