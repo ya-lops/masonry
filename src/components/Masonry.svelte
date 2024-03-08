@@ -6,7 +6,7 @@
   let images = [];
   let imageColumns = [];
   let windowWidth;
-  let columns = 4;
+  let columns = 3;
 
   onMount(async () => {
     window.addEventListener("resize", updateColumns);
@@ -55,7 +55,9 @@
             height={image.height}
             src={image.src}
             alt={`Image ${index + 1}`}
-            {...index <= 4 ? { loading: "eager" } : { loading: "lazy" }}
+            {...index <= 2
+              ? { loading: "eager", decoding: "auto" }
+              : { loading: "lazy", decoding: "async" }}
           />
         </div>
       {/each}
