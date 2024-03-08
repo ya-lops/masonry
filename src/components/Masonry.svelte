@@ -8,8 +8,21 @@
   let windowWidth;
   let columns = 3;
 
+  onMount(async () => {
+    window.addEventListener("resize", updateColumns);
+    updateColumns();
+
+    images = Object.values(getImages).map((image) => image.default);
+    imageColumns = chunkArray(images, columns);
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("resize", updateColumns);
+  });
+
   function updateColumns() {
     windowWidth = window.innerWidth;
+
     if (windowWidth > 1000) {
       columns = 4;
     } else if (windowWidth > 768) {
@@ -17,21 +30,9 @@
     } else {
       columns = 2;
     }
+
     imageColumns = chunkArray(images, columns);
   }
-
-  onMount(async () => {
-    window.addEventListener("resize", updateColumns);
-    updateColumns();
-
-    images = Object.values(getImages).map((image) => image.default);
-
-    imageColumns = chunkArray(images, columns);
-  });
-
-  onDestroy(() => {
-    window.removeEventListener("resize", updateColumns);
-  });
 
   function chunkArray(array, columns) {
     const chunks = Array.from({ length: columns }, () => []);
@@ -75,13 +76,13 @@
       display: flex;
       flex-flow: column;
       gap: 0.5rem;
-
-      > * {
-        flex: 1;
-      }
     }
 
     &__item {
+      flex: 1;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.125) 1px 3px 3px;
+
       img {
         width: 100%;
         height: 100%;
