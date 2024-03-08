@@ -1,23 +1,22 @@
 import { defineConfig } from "astro/config";
 import vercelServerless from '@astrojs/vercel/serverless';
 
-import mdx from "@astrojs/mdx";
+import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
   adapter: vercelServerless(),
   build: {
-    inlineStylesheets: "never",
+    inlineStylesheets: "never"
   },
-  devToolbar: { enabled: false },
-  integrations: [
-    // partytown(),
-    mdx(),
-  ],
+  devToolbar: {
+    enabled: false
+  },
   vite: {
     css: {
-      devSourcemap: true,
-    },
+      devSourcemap: true
+    }
   },
+  integrations: [svelte()]
 });

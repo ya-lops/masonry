@@ -1,0 +1,98 @@
+---
+import { Image } from "astro:assets";
+
+// get all images from /src/images
+const getImages = import.meta.glob("@/images/*", { eager: true });
+const images = Object.values(
+  getImages as { [key: string]: { default: any } },
+).map((image) => image.default);
+
+function chunkArray(array, columns) {
+  const chunks = Array.from({ length: columns }, () => []);
+
+  array.forEach((item, index) => {
+    chunks[index % columns].push(item);
+  });
+
+  return chunks;
+}
+
+const columns = 3;
+const imageColumns = chunkArray(images, columns);
+---
+
+<section class="masonry">
+  {
+    imageColumns.map((chunk) => (
+      <div class="masonry__column">
+        {chunk.map((image, index) => {
+          return (
+            <div
+              class:list={[
+                "masonry__item",
+                image.width / image.height < 0.75 ? "is-portrait" : "",
+              ]}
+              style={`--index: ${index}`}
+            >
+              <Image
+                src={image}
+                alt={`Image ${index + 1}`}
+                {...(index === 0 ? { loading: "eager", decoding: "auto" } : {})}
+              />
+            </div>
+          );
+        })}
+      </div>
+    ))
+  }
+</section>
+
+<style lang="scss" is:global define:vars={{ columns }}>
+  .masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin-block: 1rem;
+
+    @media (width < 500px) {
+      grid-auto-rows: 75px;
+    }
+
+    @media (width > 500px) {
+      grid-template-columns: repeat(var(--columns), 1fr);
+    }
+
+    &__column {
+      display: flex;
+      flex-flow: column;
+      gap: 0.5rem;
+
+      > * {
+        flex: 1;
+      }
+
+      @media (width < 500px) {
+        display: contents;
+      }
+    }
+
+    &__item {
+      @media (width < 500px) {
+        max-height: 400px;
+        order: var(--index);
+        grid-row: span 2;
+
+        &.is-portrait {
+          grid-row: span 3;
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+  }
+</style>
