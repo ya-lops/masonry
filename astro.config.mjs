@@ -1,12 +1,12 @@
 import { defineConfig } from "astro/config";
-import vercelServerless from '@astrojs/vercel/serverless';
+// import vercelServerless from '@astrojs/vercel/serverless';
 
 import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: vercelServerless(),
+  // output: 'server',
+  // adapter: vercelServerless(),
   build: {
     inlineStylesheets: "never"
   },
