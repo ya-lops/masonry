@@ -51,8 +51,6 @@
       {#each chunk as image, index}
         <div class="masonry__item">
           <img
-            width={image.width}
-            height={image.height}
             src={image.src}
             alt={`Image ${index + 1}`}
             {...index === 0 ? { loading: "eager", decoding: "auto" } : {}}
