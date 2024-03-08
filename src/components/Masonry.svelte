@@ -6,7 +6,7 @@
   let images = [];
   let imageColumns = [];
   let windowWidth;
-  let columns = 3;
+  let columns = 4;
 
   onMount(async () => {
     window.addEventListener("resize", updateColumns);
