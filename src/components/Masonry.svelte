@@ -8,6 +8,8 @@
   let windowWidth;
   let columns = 3;
 
+  let m = { x: 0, y: 0 };
+
   onMount(async () => {
     window.addEventListener("resize", updateColumns);
     updateColumns();
@@ -48,8 +50,23 @@
 <section class="masonry" style="--columns: {columns};">
   {#each imageColumns as chunk}
     <div class="masonry__column">
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       {#each chunk as image, index}
-        <div class="masonry__item">
+        <div
+          class="masonry__item _item"
+          on:mousemove={(e) => {
+            m = {
+              x:
+                50 -
+                Math.round((e.offsetX / e.currentTarget.clientWidth) * 100),
+              y:
+                50 -
+                Math.round((e.offsetY / e.currentTarget.clientHeight) * 100),
+            };
+
+            e.target.style.cssText = `--x: ${m.x}%; --y: ${m.y}%;`;
+          }}
+        >
           <img
             width={image.width}
             height={image.height}
@@ -87,7 +104,15 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: 50% 50%;
         border-radius: 5px;
+        transition: object-position 2s linear;
+        transition-delay: 0.25s;
+      }
+
+      &:hover img {
+        object-position: calc(50% - var(--x)) calc(50% - var(--y));
+        transition: object-position 0s linear;
       }
     }
   }
