@@ -45,6 +45,19 @@
 
     return chunks;
   }
+
+  function onMouseMoveViewImg(event) {
+    m = {
+      x:
+        50 -
+        Math.round((event.offsetX / event.currentTarget.clientWidth) * 100),
+      y:
+        50 -
+        Math.round((event.offsetY / event.currentTarget.clientHeight) * 100),
+    };
+
+    event.target.style.cssText = `--x: ${m.x}%; --y: ${m.y}%;`;
+  }
 </script>
 
 <section class="masonry" style="--columns: {columns};">
@@ -52,21 +65,7 @@
     <div class="masonry__column">
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       {#each chunk as image, index}
-        <div
-          class="masonry__item _item"
-          on:mousemove={(e) => {
-            m = {
-              x:
-                50 -
-                Math.round((e.offsetX / e.currentTarget.clientWidth) * 100),
-              y:
-                50 -
-                Math.round((e.offsetY / e.currentTarget.clientHeight) * 100),
-            };
-
-            e.target.style.cssText = `--x: ${m.x}%; --y: ${m.y}%;`;
-          }}
-        >
+        <div class="masonry__item _item" on:mousemove={onMouseMoveViewImg}>
           <img
             width={image.width}
             height={image.height}
