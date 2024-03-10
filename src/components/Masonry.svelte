@@ -98,6 +98,24 @@
       flex: 1;
       border-radius: 5px;
       box-shadow: rgba(0, 0, 0, 0.125) 1px 3px 3px;
+      animation-timeline: view();
+      animation-name: showing;
+      animation-fill-mode: both;
+      animation-range-end: cover 20%;
+      transform-origin: bottom center;
+      margin-inline: auto;
+
+      @keyframes showing {
+        from {
+          opacity: 0;
+          translate: 0 50%;
+        }
+
+        to {
+          opacity: 1;
+          translate: 0 0;
+        }
+      }
 
       img {
         width: 100%;
