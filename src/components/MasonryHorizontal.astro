@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+
+// get all images from /src/images
+const getImages = import.meta.glob("@/images/*", { eager: true });
+const images = Object.values(
+  getImages as { [key: string]: { default: any } },
+).map((image) => image.default);
+---
+
+<section class="masonry">
+  {
+    images.map((image, index) => {
+      return (
+        <div class:list={["masonry__item"]}>
+          <Image
+            src={image}
+            alt={`Image ${index + 1}`}
+            {...(index <= 16 ? { loading: "eager", decoding: "auto" } : {})}
+          />
+        </div>
+      );
+    })
+  }
+</section>
+
+<style lang="scss" is:global>
+  .masonry {
+    display: flex;
+    flex-wrap: wrap;
+    margin-block: 1rem;
+    margin-inline: calc(-1 * 0.5rem);
+
+    &__item {
+      flex-grow: 1;
+      max-width: 50%;
+      padding: 0.25rem;
+
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+    }
+  }
+</style>

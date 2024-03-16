@@ -1,0 +1,29 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import MasonryHorizontal from "@/components/MasonryHorizontal.astro";
+---
+
+<BaseLayout title="Masonry">
+  <div class="container">
+    <nav>
+      <a href="/">Static aligned (fake cols)</a>
+      <a href="/infinite">Infinite Scroll (grid)</a>
+      <a href="/horizontal">Horizontal (flex)</a>
+    </nav>
+    <h1>Horizontal</h1>
+
+    <MasonryHorizontal/>
+  </div>
+</BaseLayout>
+
+<style>
+  nav {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem;
+
+    a {
+      color: #fff;
+    }
+  }
+</style>
